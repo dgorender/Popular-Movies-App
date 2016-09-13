@@ -54,23 +54,10 @@ public class MovieGridFragment extends Fragment {
 
     private String[] getMovieTitles(String moviesJsonStr) throws JSONException {
 
-        final String TMDB_ITEMS = "items";
-        final String OWM_WEATHER = "weather";
-        final String OWM_TEMPERATURE = "temp";
-        final String OWM_MAX = "max";
-        final String OWM_MIN = "min";
-        final String OWM_DESCRIPTION = "main";
+        final String TMDB_RESULTS = "results";
 
         JSONObject moviesJson = new JSONObject(moviesJsonStr);
-        JSONArray moviesArray = moviesJson.getJSONArray(TMDB_ITEMS);
-
-        // OWM returns daily forecasts based upon the local time of the city that is being
-        // asked for, which means that we need to know the GMT offset to translate this data
-        // properly.
-
-        // Since this data is also sent in-order and the first day is always the
-        // current day, we're going to take advantage of that to get a nice
-        // normalized UTC date for all of our weather.
+        JSONArray moviesArray = moviesJson.getJSONArray(TMDB_RESULTS);
 
         String[] resultStrs = new String[moviesArray.length()];
         for(int i = 0; i < moviesArray.length(); i++) {
@@ -100,7 +87,7 @@ public class MovieGridFragment extends Fragment {
                 // Possible parameters are avaiable at OWM's forecast API page, at
                 // http://openweathermap.org/API#forecast
                 final String FORECAST_BASE_URL =
-                        "http://api.themoviedb.org/3/list/509ec17b19c2950a0600050d?";
+                        "http://api.themoviedb.org/3/movie/popular?";
                 Uri builtUri = Uri.parse(FORECAST_BASE_URL)
                         .buildUpon()
                         .appendQueryParameter("api_key", BuildConfig.THE_MOVIE_DB_API_KEY)
