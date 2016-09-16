@@ -2,9 +2,11 @@ package com.example.dgorender.popularmoviesapp;
 
 
 import android.app.Fragment;
+import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.text.format.Time;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -49,7 +51,10 @@ public class MovieGridFragment extends Fragment {
     @Override
     public void onStart() {
         super.onStart();
-        new FetchMoviesTask().execute();
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getActivity());
+        String sortOrder = prefs.getString(getString(R.string.pref_order_key),
+                getString(R.string.pref_order_default));
+        new FetchMoviesTask().execute(sortOrder);
     }
 
     private String[] getMovieTitles(String moviesJsonStr) throws JSONException {
@@ -69,12 +74,12 @@ public class MovieGridFragment extends Fragment {
         return resultStrs;
     }
 
-    public class FetchMoviesTask extends AsyncTask<Void, Void, String[]> {
+    public class FetchMoviesTask extends AsyncTask<String, Void, String[]> {
 
         private final String LOG_TAG = FetchMoviesTask.class.getSimpleName();
 
         @Override
-        protected String[] doInBackground(Void... params) {
+        protected String[] doInBackground(String... params) {
             // These two need to be declared outside the try/catch
             // so that they can be closed in the finally block.
             HttpURLConnection urlConnection = null;
@@ -88,8 +93,8 @@ public class MovieGridFragment extends Fragment {
                 // Possible parameters are avaiable at OWM's forecast API page, at
                 // http://openweathermap.org/API#forecast
                 final String FORECAST_BASE_URL =
-                        "http://api.themoviedb.org/3/movie/popular?";
-                Uri builtUri = Uri.parse(FORECAST_BASE_URL)
+                        "http://api.themoviedb.org/3/movie/";
+                Uri builtUri = Uri.parse(FORECAST_BASE_URL + params[0] + "?")
                         .buildUpon()
                         .appendQueryParameter("api_key", BuildConfig.THE_MOVIE_DB_API_KEY)
                         .build();
