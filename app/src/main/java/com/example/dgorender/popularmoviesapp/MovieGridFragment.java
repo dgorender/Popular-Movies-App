@@ -32,23 +32,6 @@ public class MovieGridFragment extends Fragment {
 
     private ImageListAdapter mMoviesAdapter;
 
-    private static String[] eatFoodyImages = {
-            "http://i.imgur.com/rFLNqWI.jpg",
-            "http://i.imgur.com/C9pBVt7.jpg",
-            "http://i.imgur.com/rT5vXE1.jpg",
-            "http://i.imgur.com/aIy5R2k.jpg",
-            "http://i.imgur.com/MoJs9pT.jpg",
-            "http://i.imgur.com/S963yEM.jpg",
-            "http://i.imgur.com/rLR2cyc.jpg",
-            "http://i.imgur.com/SEPdUIx.jpg",
-            "http://i.imgur.com/aC9OjaM.jpg",
-            "http://i.imgur.com/76Jfv9b.jpg",
-            "http://i.imgur.com/fUX7EIB.jpg",
-            "http://i.imgur.com/syELajx.jpg",
-            "http://i.imgur.com/COzBnru.jpg",
-            "http://i.imgur.com/Z3QjilA.jpg",
-    };
-
     public MovieGridFragment() {
     }
 
@@ -57,17 +40,9 @@ public class MovieGridFragment extends Fragment {
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.moviegrid_fragment, container, false);
 
-        ArrayList<String> urls= new ArrayList(Arrays.asList(eatFoodyImages));
-        /*mMoviesAdapter = new ImageListAdapter(getActivity(), eatFoodyImages);
-        GridView mMoviesView = (GridView) rootView.findViewById(R.id.moviegridview);
-        mMoviesView.setAdapter(mMoviesAdapter);*/
         mMoviesAdapter = new ImageListAdapter(getActivity(),R.layout.grid_image_item, new ArrayList<String>());
         GridView grid = (GridView) rootView.findViewById(R.id.usage_example_gridview);
         grid.setAdapter(mMoviesAdapter);
-        /*for (String s : eatFoodyImages) {
-            mMoviesAdapter.add(s);
-        }*/
-        //mMoviesAdapter.add("http://www.moviedeskback.com/wp-content/uploads/2016/01/Suicide_Squad_Poster.jpg");
         return rootView;
     }
 

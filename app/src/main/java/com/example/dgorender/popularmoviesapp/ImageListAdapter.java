@@ -36,16 +36,10 @@ public class ImageListAdapter extends ArrayAdapter {
         Picasso
                 .with(context)
                 .load(imageUrls.get(position))
-                .fit() // will explain later
+                //.fit() // will explain later
                 .into((ImageView) convertView);
 
         return convertView;
     }
-
-    /*public void add(String url)
-    {
-        imageUrls.add(url);
-        notifyDataSetChanged();
-    }*/
 
 }
