@@ -11,6 +11,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.GridView;
 import android.widget.ListView;
 
 import org.json.JSONArray;
@@ -29,7 +30,24 @@ import java.util.List;
 
 public class MovieGridFragment extends Fragment {
 
-    private ArrayAdapter<String> mMoviesAdapter;
+    private ImageListAdapter mMoviesAdapter;
+
+    private static String[] eatFoodyImages = {
+            "http://i.imgur.com/rFLNqWI.jpg",
+            "http://i.imgur.com/C9pBVt7.jpg",
+            "http://i.imgur.com/rT5vXE1.jpg",
+            "http://i.imgur.com/aIy5R2k.jpg",
+            "http://i.imgur.com/MoJs9pT.jpg",
+            "http://i.imgur.com/S963yEM.jpg",
+            "http://i.imgur.com/rLR2cyc.jpg",
+            "http://i.imgur.com/SEPdUIx.jpg",
+            "http://i.imgur.com/aC9OjaM.jpg",
+            "http://i.imgur.com/76Jfv9b.jpg",
+            "http://i.imgur.com/fUX7EIB.jpg",
+            "http://i.imgur.com/syELajx.jpg",
+            "http://i.imgur.com/COzBnru.jpg",
+            "http://i.imgur.com/Z3QjilA.jpg",
+    };
 
     public MovieGridFragment() {
     }
@@ -38,11 +56,18 @@ public class MovieGridFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.moviegrid_fragment, container, false);
-        mMoviesAdapter = new ArrayAdapter<>(getActivity(), android.R.layout.simple_list_item_1);
-        ListView mMoviesView = (ListView) rootView.findViewById(R.id.moviegridlayout);
-        mMoviesView.setAdapter(mMoviesAdapter);
-        //mMoviesAdapter.add("Movie 1");
-        //mMoviesAdapter.add("Movie 2");
+
+        ArrayList<String> urls= new ArrayList(Arrays.asList(eatFoodyImages));
+        /*mMoviesAdapter = new ImageListAdapter(getActivity(), eatFoodyImages);
+        GridView mMoviesView = (GridView) rootView.findViewById(R.id.moviegridview);
+        mMoviesView.setAdapter(mMoviesAdapter);*/
+        mMoviesAdapter = new ImageListAdapter(getActivity(),R.layout.grid_image_item, new ArrayList<String>());
+        GridView grid = (GridView) rootView.findViewById(R.id.usage_example_gridview);
+        grid.setAdapter(mMoviesAdapter);
+        /*for (String s : eatFoodyImages) {
+            mMoviesAdapter.add(s);
+        }*/
+        //mMoviesAdapter.add("http://www.moviedeskback.com/wp-content/uploads/2016/01/Suicide_Squad_Poster.jpg");
         return rootView;
     }
 
@@ -55,6 +80,7 @@ public class MovieGridFragment extends Fragment {
     private String[] getMovieTitles(String moviesJsonStr) throws JSONException {
 
         final String TMDB_RESULTS = "results";
+        final String base_url = "http://image.tmdb.org/t/p/w185";
 
         JSONObject moviesJson = new JSONObject(moviesJsonStr);
         JSONArray moviesArray = moviesJson.getJSONArray(TMDB_RESULTS);
@@ -63,7 +89,7 @@ public class MovieGridFragment extends Fragment {
         for(int i = 0; i < moviesArray.length(); i++) {
             // Get the JSON object representing the movie title
             JSONObject movieJson = moviesArray.getJSONObject(i);
-            resultStrs[i] = movieJson.getString("title");
+            resultStrs[i] = base_url + movieJson.getString("poster_path");
         }
         return resultStrs;
     }
