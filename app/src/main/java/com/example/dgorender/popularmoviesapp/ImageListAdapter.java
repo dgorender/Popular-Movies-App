@@ -6,8 +6,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
-
-import com.example.dgorender.popularmoviesapp.R;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
@@ -40,6 +38,10 @@ public class ImageListAdapter extends ArrayAdapter {
                 .into((ImageView) convertView);
 
         return convertView;
+    }
+
+    public Object getItem(int position) {
+        return movies.get(position);
     }
 
 }

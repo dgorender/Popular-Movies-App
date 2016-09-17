@@ -2,19 +2,18 @@ package com.example.dgorender.popularmoviesapp;
 
 
 import android.app.Fragment;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
-import android.text.format.Time;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
+import android.widget.AdapterView;
 import android.widget.GridView;
-import android.widget.ListView;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -27,7 +26,6 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 public class MovieGridFragment extends Fragment {
@@ -45,6 +43,16 @@ public class MovieGridFragment extends Fragment {
         mMoviesAdapter = new ImageListAdapter(getActivity(),R.layout.grid_image_item, new ArrayList<Movie>());
         GridView grid = (GridView) rootView.findViewById(R.id.usage_example_gridview);
         grid.setAdapter(mMoviesAdapter);
+
+        grid.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                Movie movie = (Movie) mMoviesAdapter.getItem(i);
+                Intent detailIntent = new Intent(getActivity(), MovieDetail.class);
+                detailIntent.putExtra(Intent.EXTRA_TEXT, movie.getId());
+                startActivity(detailIntent);
+            }
+        });
         return rootView;
     }
 

@@ -1,8 +1,5 @@
 package com.example.dgorender.popularmoviesapp;
 
-/**
- * Created by dgorender on 16/09/16.
- */
 public class Movie {
 
     private String id, title, synopsis, userRating, posterPath, releaseDate;

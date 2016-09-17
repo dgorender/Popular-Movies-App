@@ -25,6 +25,14 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.example.dgorender.popularmoviesapp.MainActivity" />
         </activity>
+        <activity
+            android:name=".MovieDetail"
+            android:label="MovieDetail"
+            android:parentActivityName=".MainActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.example.dgorender.popularmoviesapp.MainActivity" />
+        </activity>
     </application>
 
 </manifest>
