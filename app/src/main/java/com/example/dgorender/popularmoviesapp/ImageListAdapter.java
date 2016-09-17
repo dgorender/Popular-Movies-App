@@ -16,14 +16,14 @@ public class ImageListAdapter extends ArrayAdapter {
     private Context context;
     private LayoutInflater inflater;
 
-    private ArrayList<String> imageUrls;
+    private ArrayList<Movie> movies;
 
-    public ImageListAdapter(Context context, int layoutResource, ArrayList<String> imageUrls) {
+    public ImageListAdapter(Context context, int layoutResource, ArrayList<Movie> imageUrls) {
 
         super(context, layoutResource, imageUrls);
 
         this.context = context;
-        this.imageUrls = imageUrls;
+        this.movies = imageUrls;
         inflater = LayoutInflater.from(context);
     }
 
@@ -35,8 +35,8 @@ public class ImageListAdapter extends ArrayAdapter {
 
         Picasso
                 .with(context)
-                .load(imageUrls.get(position))
-                //.fit() // will explain later
+                .load(movies.get(position).getPosterPath())
+                .fit()
                 .into((ImageView) convertView);
 
         return convertView;

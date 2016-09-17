@@ -42,7 +42,7 @@ public class MovieGridFragment extends Fragment {
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.moviegrid_fragment, container, false);
 
-        mMoviesAdapter = new ImageListAdapter(getActivity(),R.layout.grid_image_item, new ArrayList<String>());
+        mMoviesAdapter = new ImageListAdapter(getActivity(),R.layout.grid_image_item, new ArrayList<Movie>());
         GridView grid = (GridView) rootView.findViewById(R.id.usage_example_gridview);
         grid.setAdapter(mMoviesAdapter);
         return rootView;
@@ -57,7 +57,7 @@ public class MovieGridFragment extends Fragment {
         new FetchMoviesTask().execute(sortOrder);
     }
 
-    private String[] getMovieTitles(String moviesJsonStr) throws JSONException {
+    private List<Movie> getMovieTitles(String moviesJsonStr) throws JSONException {
 
         final String TMDB_RESULTS = "results";
         final String base_url = "http://image.tmdb.org/t/p/w185";
@@ -65,21 +65,22 @@ public class MovieGridFragment extends Fragment {
         JSONObject moviesJson = new JSONObject(moviesJsonStr);
         JSONArray moviesArray = moviesJson.getJSONArray(TMDB_RESULTS);
 
-        String[] resultStrs = new String[moviesArray.length()];
+        List<Movie> result = new ArrayList<>();
         for(int i = 0; i < moviesArray.length(); i++) {
-            // Get the JSON object representing the movie title
             JSONObject movieJson = moviesArray.getJSONObject(i);
-            resultStrs[i] = base_url + movieJson.getString("poster_path");
+            String posterPath = base_url + movieJson.getString("poster_path");
+            String id = movieJson.getString("id");
+            result.add(new Movie(id, posterPath));
         }
-        return resultStrs;
+        return result;
     }
 
-    public class FetchMoviesTask extends AsyncTask<String, Void, String[]> {
+    public class FetchMoviesTask extends AsyncTask<String, Void, List<Movie>> {
 
         private final String LOG_TAG = FetchMoviesTask.class.getSimpleName();
 
         @Override
-        protected String[] doInBackground(String... params) {
+        protected List<Movie> doInBackground(String... params) {
             // These two need to be declared outside the try/catch
             // so that they can be closed in the finally block.
             HttpURLConnection urlConnection = null;
@@ -144,7 +145,7 @@ public class MovieGridFragment extends Fragment {
                     }
                 }
             }
-            String[] result;
+            List<Movie> result;
             try {
                 result = getMovieTitles(moviesJsonStr);
                 return result;
@@ -155,11 +156,11 @@ public class MovieGridFragment extends Fragment {
         }
 
         @Override
-        protected void onPostExecute(String[] strings) {
+        protected void onPostExecute(List<Movie> movies) {
             mMoviesAdapter.clear();
-            if (strings != null) {
-                for (String s : strings) {
-                    mMoviesAdapter.add(s);
+            if (movies != null) {
+                for (Movie m : movies) {
+                    mMoviesAdapter.add(m);
                 }
             }
         }
