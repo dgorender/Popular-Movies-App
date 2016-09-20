@@ -2,15 +2,17 @@ package com.example.dgorender.popularmoviesapp;
 
 public class Movie {
 
-    private String id, title, synopsis, userRating, posterPath, releaseDate;
+    private String id, title, synopsis, userRating, posterPath, releaseDate, runTime;
 
-    public Movie(String id, String title, String synopsis, String userRating, String posterPath, String releaseDate) {
+    public Movie(String id, String title, String synopsis, String userRating, String posterPath, String releaseDate, String runTime) {
         this.id = id;
         this.title = title;
         this.synopsis = synopsis;
         this.userRating = userRating;
         this.posterPath = posterPath;
         this.releaseDate = releaseDate;
+        this.runTime = runTime;
+
     }
 
     public Movie(String id, String posterPath) {
@@ -65,4 +67,8 @@ public class Movie {
     public void setPosterPath(String posterPath) {
         this.posterPath = posterPath;
     }
+
+    public String getRunTime() { return runTime; }
+
+    public void setRunTime(String runTime) { this.runTime = runTime; }
 }
